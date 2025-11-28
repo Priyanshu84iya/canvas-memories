@@ -16,7 +16,7 @@
 
   <br />
 
-  [View Live Demo](#) &nbsp;&middot;&nbsp; [Report Bug](https://github.com/Priyanshu84iya/canvas-memories/issues) &nbsp;&middot;&nbsp; [Request Feature](https://github.com/Priyanshu84iya/canvas-memories/issues)
+  [View Live Demo](https://priyanshu84iya.github.io/canvas-memories/) &nbsp;&middot;&nbsp; [Report Bug](https://github.com/Priyanshu84iya/canvas-memories/issues) &nbsp;&middot;&nbsp; [Request Feature](https://github.com/Priyanshu84iya/canvas-memories/issues)
 
 </div>
 
