@@ -1,0 +1,301 @@
+/* --- 1. Theming Variables --- */
+:root {
+    /* LIGHT MODE (Default) */
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --polaroid-bg: #fff;
+    --caption-color: #444;
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.5);
+    --btn-text: #333;
+    --btn-hover: rgba(0,0,0,0.05);
+    --instruction-color: #555;
+    --divider-color: #bbb;
+}
+
+[data-theme="dark"] {
+    /* DARK MODE (Deep Space) */
+    --bg-gradient: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    /* Vintage Sepia Paper for less glare */
+    --polaroid-bg: #f4ecd8; 
+    --caption-color: #3b302a;
+    /* Dark Frosted Glass */
+    --glass-bg: rgba(0, 0, 0, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --btn-text: #eee;
+    --btn-hover: rgba(255,255,255,0.1);
+    --instruction-color: #ccc;
+    --divider-color: #666;
+}
+
+/* --- 2. Global Resets --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-gradient);
+    transition: background 0.5s ease; /* Smooth Theme Transition */
+}
+
+/* --- 3. Main Board --- */
+#board {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: grab;
+    z-index: 1;
+}
+
+.instruction {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--instruction-color);
+    pointer-events: none;
+    opacity: 0.7;
+    transition: opacity 0.5s ease, color 0.5s ease;
+    width: 100%;
+}
+
+.instruction h1 { font-size: 4rem; letter-spacing: -2px; margin-bottom: 10px; }
+.instruction p { font-size: 1.2rem; }
+
+/* --- 4. Polaroid Card --- */
+.polaroid {
+    position: absolute;
+    background: var(--polaroid-bg); /* Variable Background */
+    padding: 12px 12px 25px 12px;
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.5s ease;
+    width: 220px;
+    cursor: grab;
+    user-select: none;
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.polaroid:active {
+    cursor: grabbing;
+    box-shadow: 10px 20px 30px rgba(0,0,0,0.25);
+    transform: scale(1.05) !important;
+    z-index: 1000 !important;
+}
+
+.polaroid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+    border: 1px solid rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    filter: contrast(1.05); /* Slight pop for images */
+}
+
+/* Tape Effect */
+.polaroid::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 80px;
+    height: 25px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-left: 1px dashed rgba(0,0,0,0.1);
+    border-right: 1px dashed rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    backdrop-filter: blur(2px);
+    opacity: 0.8;
+}
+
+/* --- 5. Caption --- */
+.caption {
+    width: 100%;
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    color: var(--caption-color);
+    text-align: center;
+    border: none;
+    outline: none;
+    background: transparent;
+    min-height: 30px;
+    cursor: text;
+    line-height: 1.1;
+    overflow-wrap: break-word;
+}
+
+.caption:empty::before {
+    content: 'Write here...';
+    color: #bbb; /* Placeholder color remains neutral */
+    font-size: 1.3rem;
+    pointer-events: none;
+}
+
+/* --- 6. Controls Bar --- */
+.controls {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 12px 25px;
+    border-radius: 50px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--glass-border);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.5s ease;
+}
+
+.btn {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--btn-text);
+    transition: 0.3s;
+    font-size: 0.95rem;
+    background: none;
+    border: none;
+    font-family: inherit;
+    padding: 8px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.btn:hover {
+    background: var(--btn-hover);
+}
+
+.divider {
+    color: var(--divider-color);
+    margin: 0 5px;
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+/* --- Sticky Note Styles --- */
+.sticky-note {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: #ffeb3b; /* Post-it Yellow */
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.15);
+    padding: 20px; /* Padding creates the "handle" area to drag */
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 2px;
+    /* Flex to center the text box inside */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dark Mode Sticky Note (Dimmer Yellow) */
+[data-theme="dark"] .sticky-note {
+    background: #d4c328; 
+    color: #222;
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.3);
+}
+
+.sticky-note:active {
+    cursor: grabbing;
+    transform: scale(1.05) !important;
+    z-index: 1000 !important;
+    box-shadow: 10px 20px 30px rgba(0,0,0,0.25);
+}
+
+/* The actual typing area inside the note */
+.note-text {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Caveat', cursive; /* Handwriting font */
+    font-size: 1.8rem;
+    color: #333;
+    text-align: center;
+    resize: none; /* No ugly corner resize handle */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Placeholder for empty notes */
+.note-text:empty::before {
+    content: 'Write...';
+    opacity: 0.4;
+}
+
+/* --- Social Profile Links --- */
+.social-links {
+    position: fixed;
+    top: 25px;
+    right: 30px;
+    z-index: 2000;
+    
+    /* Glassmorphism */
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background 0.5s ease;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--btn-text);
+    text-decoration: none;
+    transition: transform 0.2s ease, color 0.3s ease;
+    opacity: 0.8;
+}
+
+.social-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.social-btn:hover {
+    transform: scale(1.15) rotate(5deg);
+    opacity: 1;
+}
+
+/* Brand Colors on Hover */
+.social-btn.github:hover {
+    color: #333; /* Default dark */
+}
+
+/* In Dark Mode, GitHub hover should be white */
+[data-theme="dark"] .social-btn.github:hover {
+    color: #fff;
+}
+
+.social-btn.instagram:hover {
+    color: #E1306C; /* Instagram Pink */
+}
+
+.divider-small {
+    width: 1px;
+    height: 15px;
+    background-color: var(--divider-color);
+    opacity: 0.5;
+}
